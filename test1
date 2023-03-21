@@ -1,9 +1,0 @@
-function remove_view_source() {
-    if (is_user_logged_in()) {
-        return;
-    }
-    else {
-        wp_die( __('View Source option has been disabled') );
-    }
-}
-add_action('wp_head', 'remove_view_source');
