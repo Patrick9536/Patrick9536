@@ -1,0 +1,4 @@
+function disable_post_revision() {
+    remove_post_type_support('post', 'revisions');
+}
+add_action('init', 'disable_post_revision', 9999);
