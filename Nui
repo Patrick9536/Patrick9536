@@ -1,0 +1,1 @@
+reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Lxss /v "DefaultEnvironment" /t REG_SZ /d "wslenv=system:wsl_case_sensitive=0" /f
