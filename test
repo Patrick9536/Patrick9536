@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Live Chat Example</title>
+</head>
+<body>
+  <h1>Live Chat Example</h1>
+  <div id="messages"></div>
+  <input type="text" id="usernameInput" placeholder="Username">
+  <input type="text" id="messageInput" placeholder="Type your message here">
+  <button id="sendButton">Send</button>
+
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+  <script>
+    var firebaseConfig = {
+      // TODO: Add your Firebase project configuration here
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    var messagesRef = firebase.database().ref('messages');
+
+    document.getElementById('sendButton').addEventListener('click', function() {
+      var username = document.getElementById('usernameInput').value;
+      var message = document.getElementById('messageInput').value;
+      var timestamp = Date.now();
+      messagesRef.push({username: username, message: message, timestamp: timestamp});
+      document.getElementById('messageInput').value = '';
+    });
+
+    messagesRef.on('child_added', function(snapshot) {
+      var username = snapshot.val().username;
+      var message = snapshot.val().message;
+      var timestamp = snapshot.val().timestamp;
+      var date = new Date(timestamp);
+      var dateString = date.toLocaleString();
+      var messageElement = document.createElement('div');
+      messageElement.innerText = '[' + dateString + '] ' + username + ': ' + message;
+      document.getElementById('messages').appendChild(messageElement);
+    });
+  </script>
+</body>
+</html>
